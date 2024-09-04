@@ -33,7 +33,9 @@ jobs:
           pip3 install pillow 
           pip3 install babel
           pip install cython
-          
+          sudo apt-get install android-sdk
+          sudo apt-get install aidl
+          sudo apt-get update
 
       - name: Build the project
         run: |
