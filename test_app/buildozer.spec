@@ -5,7 +5,7 @@ package.name = testapp
 package.domain = org.test
 
 source.dir = .
-source.include_exts = py,png,jpg,kv,atlas
+source.include_exts = py,png,jpg,kv,atlas,db
 
 version = 0.1
 requirements = python3,kivy,Pillow,babel,kivy-garden.mapview,kivycalendar3,sqlite3
