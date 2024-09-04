@@ -1,4 +1,4 @@
-name: Buildozer action
+name: PaperLab
 description: Build Python package with Kivy Buildozer
 author: Vasukhno Semen
 branding:
