@@ -39,11 +39,12 @@ jobs:
           sudo apt install sqlite
           sudo apt-get update
           sudo apt install sdkmanager
-          sdkmanager "build-tools;35.0.2" # Replace the version number with the appropriate version you need
+             sdkmanager --verbose install "build-tools;35.0.2" # Replace the version number with the appropriate version you need
 
       - name: Build the project
         run: |
           cd .github/workflows  # замените на путь к вашей директории
+          buildozer android clean
           buildozer -v android debug
 
       - name: Upload artifact
