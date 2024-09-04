@@ -33,7 +33,7 @@ jobs:
           pip3 install pillow 
           pip3 install babel
           pip install cython
-          sudo apt install Aidl
+          
 
       - name: Build the project
         run: |
