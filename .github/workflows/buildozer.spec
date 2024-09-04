@@ -15,7 +15,6 @@ fullscreen = 1
 android.arch = armeabi-v7a", arm64-v8a, x86, x86_64
 android.permissions = INTERNET, ACCESS_NETWORK_STATE
 source.main = main.py
-source.dir = .
 android.api = 31
 android.minapi = 21
 android.sdk = 31
