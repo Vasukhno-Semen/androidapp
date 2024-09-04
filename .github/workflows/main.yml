@@ -34,6 +34,7 @@ jobs:
         run: |
           sudo apt install -y zipalign
           sudo apt install -y openjdk-8-jdk
+          cd
 
       - name: Build APK
         run: |
