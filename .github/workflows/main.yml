@@ -44,7 +44,7 @@ jobs:
       - name: Build the project
         run: |
           cd .github/workflows  # замените на путь к вашей директории
-          buildozer android clean
+          
           buildozer -v android debug
 
       - name: Upload artifact
