@@ -26,6 +26,10 @@ jobs:
           pip3 install --upgrade pip 
           pip3 install buildozer
           pip3 install kivy
+          pip3 install sqlite3
+          pip3 install kivy_garden.mapview
+          pip3 install pillow
+          pip3 install babel
 
       - name: Install additional dependencies
         run: |
