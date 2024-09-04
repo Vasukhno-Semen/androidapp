@@ -36,6 +36,7 @@ jobs:
           pip install cython
           sudo apt-get install android-sdk
           sudo apt-get install aidl
+          sudo apt install sqlite
           sudo apt-get update
 
       - name: Build the project
