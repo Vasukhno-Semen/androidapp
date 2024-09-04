@@ -38,7 +38,8 @@ jobs:
           sudo apt-get install aidl
           sudo apt install sqlite
           sudo apt-get update
-          sudo apt install sdkmanager   # Replace the version number with the appropriate version you need
+          sudo apt install sdkmanager
+          sdkmanager "build-tools;35.0.2" # Replace the version number with the appropriate version you need
 
       - name: Build the project
         run: |
