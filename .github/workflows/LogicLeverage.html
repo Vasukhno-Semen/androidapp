@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+ <meta charset="UTF-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>LogicLeverage</title>
+ <style>
+    .container {
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    font-family: Arial, sans-serif;
+ }
+ 
+h1 {
+    color: #4caf50;
+ }
+ 
+label {
+    display: block;
+    margin-top: 20px;
+ }
+ 
+select {
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 20px;
+ }
+ 
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 20px;
+ }
+ 
+#equation {
+    margin-top: 20px;
+ }
+ 
+input {
+    padding: 10px;
+    font-size: 16px;
+ }
+ 
+.statistics {
+    margin-top: 30px;
+ }
+ 
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+ }
+ 
+th, td {
+    border: solid #ddd 1px;
+    padding: 8px;
+    text-align: center;
+ }
+ 
+th {
+    background-color: #4caf50;
+    color: white;
+ }
+ </style>
+ <script>
+    var startTime, endTime;
+var problemCount = 0;
+var totalTime = 0;
+
+function start() {
+startTime = new Date();
+};
+
+function end() {
+endTime = new Date();
+var timeDiff = endTime - startTime; 
+timeDiff /= 1000; 
+var seconds = Math.round(timeDiff);
+totalTime += seconds;
+problemCount++;
+if (problemCount === 10) {
+document.getElementById('totalTime').textContent = totalTime + ' секунд';
+problemCount = 0;
+totalTime = 0;
+document.getElementById('startButton').style.display = 'block';
+document.getElementById('equation').style.display = 'none';
+} else {
+generateEquation();
+}
+}
+
+function getRandomInt(min, max) {
+min = Math.ceil(min);
+max = Math.floor(max);
+return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function generateEquation() {
+var grade = document.getElementById('grade').value;
+var num1, num2, operator;
+
+switch(grade) {
+case 'easy':
+num1 = getRandomInt(1, 100);
+num2 = getRandomInt(1, 100);
+operator = ['+', '-'][getRandomInt(0, 1)];
+break;
+case 'medium':
+num1 = getRandomInt(1, 100);
+num2 = getRandomInt(1, 100);
+operator = ['+', '-', '*'][getRandomInt(0, 2)];
+break;
+case 'hard':
+num1 = getRandomInt(1, 1000);
+num2 = getRandomInt(1, 1000);
+operator = ['+', '-', '*', '/'][getRandomInt(0, 3)];
+break;
+}
+
+var equationText = num1 + ' ' + operator + ' ' + num2;
+document.getElementById('question').textContent = equationText;
+start(); 
+}
+
+function checkAnswer() {
+var userAnswer = document.getElementById('answer').value;
+var equation = document.getElementById('question').textContent;
+var correctAnswer = eval(equation);
+if (userAnswer == correctAnswer) {
+end(); 
+document.getElementById('answer').value = ''; 
+}
+}
+
+function startTest() {
+totalTime = 0;
+problemCount = 0;
+document.getElementById('startButton').style.display = 'none';
+document.getElementById('equation').style.display = 'block';
+document.getElementById('totalTime').textContent = '0 секунд';
+generateEquation();
+document.getElementById('grade').disabled = true; 
+}
+ </script>
+</head>
+<body>
+ <div class="container">
+ <h1>LogicLeverage</h1>
+ 
+
+<label for="grade">Сложность:</label>
+ <select id="grade">
+ <option value="easy">Лёгкая</option>
+ <option value="medium">Средная</option>
+ <option value="hard">Сложная</option>
+ </select>
+
+<button onclick="startTest()" id="startButton">Начать</button>
+ <div id="equation" style="display: none;" >
+ <div class="question">
+ <p id="question"></p>
+ </div>
+ <div class="answer">
+ <input type="text" id="answer" placeholder="Введите ваш ответ здесь" onkeydown="if(event.keyCode===13) checkAnswer()">
+ </div>
+ </div>
+ <div class="statistics">
+ <table>
+ <tr>
+ <th>Общее время</th>
+ </tr>
+ <tr>
+ <td id="totalTime">0 секунд</td>
+ </tr>
+ </table>
+ </div>
+ </div>
+</body>
+</html>
