@@ -39,7 +39,7 @@ jobs:
           sudo apt install sqlite
           sudo apt-get update
           sudo apt install sdkmanager
-             sdkmanager --verbose install "build-tools;35.0.2" # Replace the version number with the appropriate version you need
+             sdkmanager --verbose "build-tools;35.0.2" # Replace the version number with the appropriate version you need
 
       - name: Build the project
         run: |
