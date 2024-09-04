@@ -1,47 +1,44 @@
-name: Build APK
+name: Build Android App
 
 on:
   push:
     branches:
-      - main  # или ваша ветка
+      - main  # или любая другая ветка, которую вы используете для разработки
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Set up JDK
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
-          java-version: '11'
-          distribution: "adopt"
+          java-version: '11'  # или другая версия Java, совместимая с вашим проектом
 
       - name: Install dependencies
         run: |
-          sudo apt update
-          sudo apt install -y python3 python3-pip python3-setuptools git
-          pip3 install --upgrade pip 
+          sudo apt-get update
+          sudo apt-get install -y python3 python3-pip
+          pip3 install --upgrade pip
           pip3 install buildozer
-          pip3 install kivy
-          pip3 install kivy_garden.mapview
-          pip3 install pillow
+          pip3 install kivy 
+          pip3 install kivy_garden.mapview 
+          pip3 install pillow 
           pip3 install babel
 
-      - name: Install additional dependencies
+      - name: Build the project
         run: |
-          sudo apt install -y zipalign
-          sudo apt install -y openjdk-8-jdk
-          cd
-
-      - name: Build APK
-        run: |
+          cd .github/workflows  # замените на путь к вашей директории
           buildozer -v android debug
 
-      - name: Upload APK
+      - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: apk
-          path: bin/*.apk
+          name: android-debug-apk
+          path: .github/workflows/bin/*.apk  # замените на путь к вашему APK, если необходимо
