@@ -26,7 +26,7 @@ jobs:
     - name: Setup environment
       run: |
         pip install .
-        sudo apt install buildozer
+        pip install buildozer
     - run: buildozer --help
     - run: buildozer init
     - name: SDK, NDK and p4a download
