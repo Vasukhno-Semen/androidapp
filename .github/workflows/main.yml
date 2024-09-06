@@ -1,55 +1,50 @@
-name: Build
-on:
-  push:
-    branches-ignore:
-      - data
-      - gh-pages
-    tags:
-      - '**'
-  pull_request:
-    branches-ignore:
-      - data
-      - gh-pages
+on: [push, pull_request]
 
+env:
+  PYTHONFORANDROID_PREREQUISITES_INSTALL_INTERACTIVE: 0
+
+name: Android Integration
 jobs:
-  build-android:
-    name: Build for Android
-    runs-on: ubuntu-latest
-
+  Integration:
+    strategy:
+      matrix:
+        os:
+          - 'ubuntu-latest'
+          - 'macOs-latest'
+    runs-on: ${{ matrix.os }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          path: master
-
-      - name: Build with Buildozer
-        uses: ArtemSBulgakov/buildozer-action@v1 
-        id: buildozer
-        with:
-          repository_root: .
-          workdir: .
-          buildozer_version: stable
-          command: buildozer -v android debug
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: package
-          path: ${{ steps.buildozer.outputs.filename }}
-
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          path: data
-          ref: data
-
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.9
-          architecture: x64
-
-      - name: Push binary to data branch
-        if: github.event_name == 'push'
-        run: python /ci/move_binary.py "${{ steps.buildozer.outputs.filename }}" master data bin
-
+    - name: Setup python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+    - uses: actions/checkout@v4
+    - name: Setup environment
+      run: |
+        pip install .
+    - run: buildozer --help
+    - run: buildozer init
+    - name: SDK, NDK and p4a download
+      run: |
+        sed -i.bak "s/# android.accept_sdk_license = False/android.accept_sdk_license = True/" buildozer.spec
+        sed -i.bak "s/#p4a.branch = master/p4a.branch = develop/" buildozer.spec
+        buildozer android p4a -- --help
+    # Install OS specific dependencies
+    - name: Install Linux dependencies
+      if: matrix.os == 'ubuntu-latest'
+      # Required by some p4a recipes, but not
+      # installed by p4a on Linux.
+      run: sudo apt -y install automake        
+    - name: Debug Build
+      run: |
+        touch main.py
+        buildozer android debug
+    - name: Release Build (aab)
+      run: |
+        touch main.py
+        export BUILDOZER_ALLOW_ORG_TEST_DOMAIN=1
+        buildozer android release
