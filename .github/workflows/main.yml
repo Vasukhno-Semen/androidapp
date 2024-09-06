@@ -30,9 +30,3 @@ outputs:
 runs:
   using: docker
   image: Dockerfile
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: android-debug-apk
-          path: .github/workflows/bin/*.apk  # замените на путь к вашему APK, если необходимо
