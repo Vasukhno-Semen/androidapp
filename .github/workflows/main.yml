@@ -1,51 +1,35 @@
-name: Build Android App
+name: Buildozer action
+description: Build Python package with Kivy Buildozer
+author: Semen Vasukhno
+branding:
+  icon: package
+  color: yellow
 
-on:
-  push:
-    branches:
-      - main  # или любая другая ветка, которую вы используете для разработки
-  pull_request:
-    branches:
-      - main
+inputs:
+  command:
+    description: Command to start Buildozer. Set to `buildozer ios debug` for iOS
+    required: true
+    default: buildozer android debug
+  repository_root:
+    description: Path to cloned repository. Set if you specified path for `actions/checkout` action.
+    required: true
+    default: .
+  workdir:
+    description: Working directory where buildozer.spec is located. Set to `src` if buildozer.spec is in `src` directory
+    required: true
+    default: .
+  buildozer_version:
+    description: Version of Buildozer to install. By default installs latest release
+    required: true
+    default: stable
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+outputs:
+  filename:
+    description: Filename of built package
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up JDK
-        uses: actions/setup-java@v1
-        with:
-          java-version: '11'
-          distribution: "adopt"  # или другая версия Java, совместимая с вашим проектом
-
-      - name: Install dependencies
-        run: |
-          cd .github/workflows
-          sudo apt-get update
-          sudo apt-get install -y python3 python3-pip
-          pip3 install --upgrade pip
-          pip3 install buildozer
-          pip3 install kivy 
-          pip3 install kivy_garden.mapview 
-          pip3 install pillow 
-          pip3 install babel
-          pip install cython
-          sudo apt-get install android-sdk
-          sudo apt-get install aidl
-          sudo apt install sqlite
-          sudo apt-get update
-          sudo apt install sdkmanager
-           # Replace the version number with the appropriate version you need
-
-      - name: Build the project
-        run: |
-          cd .github/workflows  # замените на путь к вашей директории
-          
-          buildozer -v android debug
+runs:
+  using: docker
+  image: Dockerfile
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
