@@ -1,29 +1,46 @@
 [app]
-
+# Имя вашего приложения
 title = PaperLab
-package.name = testapp
-package.domain = org.test
 
-source.dir = .
-source.include_exts = py,png,jpg,kv,atlas
+# Пакетное имя (должно быть уникальным)
+package.name = PaperLab
+package.domain = org.example
 
+# Версия вашего приложения
 version = 0.1
-requirements = python3,kivy,Pillow,babel,kivy-garden.mapview,kivycalendar3,sqlite3
 
-orientation = portrait
-fullscreen = 1
-android.arch = armeabi-v7a", arm64-v8a, x86, x86_64
-android.permissions = INTERNET, ACCESS_NETWORK_STATE
+# Основной файл вашего приложения
 source.main = main.py
-android.api = 31
+
+# Папка, содержащая ваш код
+source.dir = .
+source.include_exts = py,png,jpg,kv,atlas,db
+
+# Значок приложения
+#icon.filename = %(source.dir)s/data/icon.png
+
+# Картинка загрузочного экрана (опционально)
+# presplash.filename = %(source.dir)s/экран загрузки.png
+
+# Минимальная версия Android
 android.minapi = 21
-android.sdk = 31
-android.debug = True
-# iOS specific
-ios.kivy_ios_url = https://github.com/kivy/kivy-ios
-ios.kivy_ios_branch = master
-ios.ios_deploy_url = https://github.com/phonegap/ios-deploy
-ios.ios_deploy_branch = 1.7.0
+
+# Целевая версия Android
+android.sdk = 30
+
+# Архитектуры, которые вы хотите поддерживать
+android.archs = arm64-v8a, armeabi-v7a
+
+# Разрешения, необходимые вашему приложению
+# android.permissions = INTERNET, ACCESS_NETWORK_STATE
+
+# (Опционально) Используемые библиотеки и модули
+requirements = python3,kivy,Pillow,babel,kivy-garden.mapview,kivycalendar3,sqlite3
+fullscreen = 1
 
 [buildozer]
+# Лог уровня отладки (0 - минимальный, 2 - максимальный)
 log_level = 2
+
+# Платформа, для которой вы собираете приложение
+target = android
